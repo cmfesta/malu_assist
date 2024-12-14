@@ -32,12 +32,11 @@ llm = ChatGroq(
 def create_meet_event(
     summary: str,
     start_datetime: str,
-    end_datetime: str,
-    attendees: str = "",
+    end_datetime: str
 ) -> str:
     """Schedule a meeting"""
     response, flag = calendar_obj.create_meet_event(
-        summary, start_datetime, end_datetime, attendees
+        summary, start_datetime, end_datetime
     )
 
     return response

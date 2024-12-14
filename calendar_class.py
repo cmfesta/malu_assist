@@ -146,8 +146,6 @@ class GoogleCalendarAPIClient:
         summary: str,
         start_datetime: str,
         end_datetime: str,
-        attendees: str = "",
-        hide_participants_list: bool = True,
     ):
         """Function that register a meet call in google calendar
 
@@ -155,14 +153,10 @@ class GoogleCalendarAPIClient:
         summary: It will always be a description of what will be done at the meeting.
         start_datetime: the time the meeting will start, It MUST be a timestamp string.
         end_datetime: the time the meeting will end, its It MUST be a timestamp string.
-        attendees: The email addresses of the people attending the meeting.
-        hide_participants_list: If the guest's name is visible.
 
         Return:
             A boolean indicating if the meeting was schedule
         """
-
-        attendees = [attendees.strip()]
 
         if not self.check_not_past_day(start_datetime):
             return "Você não pode marcar um horario de reunião para um dia que ja passou, apenas para hoje ou outro dia futuro"
@@ -175,7 +169,6 @@ class GoogleCalendarAPIClient:
         print("summary", summary)
         print("start_datetime", start_datetime)
         print("end_datetime", end_datetime)
-        print("attendees", attendees)
 
         if self.check_datetime_is_free(start_datetime, end_datetime):
 
@@ -190,13 +183,6 @@ class GoogleCalendarAPIClient:
                     }
                 },
             }
-
-            if hide_participants_list:
-                event["visibility"] = "private"
-                event["guestsCanSeeOtherGuests"] = False
-
-            if attendees:
-                event["attendees"] = [{"email": attendee} for attendee in attendees]
 
             created_event = (
                 self.service.events()

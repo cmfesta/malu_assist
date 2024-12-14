@@ -12,7 +12,6 @@ class SearchInput(BaseModel):
     end_datetime: str = Field(
         description="The time the meeting will end, the data should be yyyy-mm-dd HH:mm:ss"
     )
-    attendees: str = Field(description="attendees of the meeting")
 
     @validator("summary")
     def validate_summary(cls, v):
@@ -32,27 +31,6 @@ class SearchInput(BaseModel):
         regex_exp = "^(\d{4})\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01]) ([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$"
         if not re.match(regex_exp, v):
             raise ToolException("Incorrect data format, should be yyyy-mm-dd HH:mm:ss")
-        return v
-
-    @validator("attendees")
-    def validate_attendees(cls, v):
-
-        def index_containing_substring(the_list, substring):
-            for i, s in enumerate(the_list):
-                if substring in s:
-                    return i
-
-        regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
-
-        if not re.match(regex, v):
-            if len(v.split(" ")) > 1:
-                email_index = index_containing_substring(v.split(" "), "@")
-                if re.fullmatch(
-                    regex, v.split(" ")[int(email_index)].replace("<>", "")
-                ):
-                    email = v.split(" ")[int(email_index)].replace("<>", "")
-                    raise ToolException(f"O email valido é {email}")
-            raise ToolException("Não é um email valido")
         return v
 
 
