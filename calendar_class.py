@@ -198,9 +198,9 @@ class GoogleCalendarAPIClient:
             # meet_link = created_event.get("hangoutLink", None)
             # event_id = created_event.get("id", None)
 
-            return "Reunião marcada com sucesso", True
+            return "Reunião marcada com sucesso"
 
-        return "Já existe uma reunião marcada nesse horario", False
+        return "Já existe uma reunião marcada nesse horario"
 
     def reschedule_v2(
         self,
