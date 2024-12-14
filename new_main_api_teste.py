@@ -35,7 +35,7 @@ def create_meet_event(
     end_datetime: str
 ) -> str:
     """Schedule a meeting"""
-    response, flag = calendar_obj.create_meet_event(
+    response = calendar_obj.create_meet_event(
         summary, start_datetime, end_datetime
     )
 
